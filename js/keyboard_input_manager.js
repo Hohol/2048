@@ -71,12 +71,12 @@ KeyboardInputManager.prototype.listen = function () {
     }
   });/**/
   
-  document.addEventListener("click", function(event) {
-	event.preventDefault();
+  document.addEventListener("click", function(event) {	
 	var s = event.target.id;
 	if (s.length != 2 || !/^\d+$/.test(s)) {
 		return;
 	}	
+	event.preventDefault();
 	var x = parseInt(s[1]);
 	var y = parseInt(s[0]);
 	if(event.button == 0) {
