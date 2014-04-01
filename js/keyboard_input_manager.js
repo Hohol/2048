@@ -80,9 +80,9 @@ KeyboardInputManager.prototype.listen = function () {
 	var x = parseInt(s[1]);
 	var y = parseInt(s[0]);
 	if(event.button == 0) {
-		var value = 2;
-	} else {
 		var value = 4;
+	} else {
+		var value = 2;
 	}
 	self.emit("addTile", new Tile({x:x, y:y}, value));
   });
