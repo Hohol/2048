@@ -9,6 +9,7 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
+  this.inputManager.on("addTile", this.addTile.bind(this));
 
   this.setup();
 }
@@ -130,6 +131,28 @@ GameManager.prototype.moveTile = function (tile, cell) {
   tile.updatePosition(cell);
 };
 
+GameManager.prototype.addTile = function(newTile) {		
+	this.grid.cells.forEach(function (column) {
+      column.forEach(function (cell) {
+        if (cell) {
+          cell.savePosition();
+        }
+      });
+    });
+	this.grid.insertTile(newTile);
+	 if (!this.movesAvailable()) {
+      this.over = true; // Game over!
+	  this.actuate();
+	  return;
+    }    	
+	while(true) {
+		direction = Math.floor((Math.random()*4));
+		if(this.move(direction)) {
+			return;
+		}
+	}
+}
+
 // Move tiles on the grid in the specified direction
 GameManager.prototype.move = function (direction) {
   // 0: up, 1: right, 2: down, 3: left
@@ -184,7 +207,7 @@ GameManager.prototype.move = function (direction) {
   });
 
   if (moved) {
-    this.addRandomTile();
+    //this.addRandomTile();
 
     if (!this.movesAvailable()) {
       this.over = true; // Game over!
@@ -192,6 +215,7 @@ GameManager.prototype.move = function (direction) {
 
     this.actuate();
   }
+  return moved;
 };
 
 // Get the vector representing the chosen direction
