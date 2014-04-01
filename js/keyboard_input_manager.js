@@ -50,7 +50,7 @@ KeyboardInputManager.prototype.listen = function () {
   };
 
   // Respond to direction keys
-  document.addEventListener("keydown", function (event) {
+  /*document.addEventListener("keydown", function (event) {
     var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
                     event.shiftKey;
     var mapped    = map[event.which];
@@ -69,6 +69,22 @@ KeyboardInputManager.prototype.listen = function () {
     if (!modifiers && event.which === 82) {
       self.restart.call(self, event);
     }
+  });/**/
+  
+  document.addEventListener("click", function(event) {
+	event.preventDefault();
+	var s = event.target.id;
+	if (s.length != 2 || !/^\d+$/.test(s)) {
+		return;
+	}	
+	var x = parseInt(s[1]);
+	var y = parseInt(s[0]);
+	if(event.button == 0) {
+		var value = 2;
+	} else {
+		var value = 4;
+	}
+	self.emit("addTile", new Tile({x:x, y:y}, value));
   });
 
   // Respond to button presses
